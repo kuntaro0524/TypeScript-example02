@@ -1,10 +1,23 @@
+import axios from "axios";
+import { useState } from "react";
 import "./styles.css";
 
 export default function App() {
+  // 共通変数とセット関数を定義する
+  // これにToDoリストを保持して使っていく
+  const [todos, setTodos] = useState<any>([]);
+
+  const onClickFetchData = () => {
+    axios.get("https://jsonplaceholder.typicode.com/todos").then((res) => {
+      setTodos(res.data);
+    });
+  };
   return (
     <div className="App">
-      <h1>Hello CodeSandbox</h1>
-      <h2>Start editing to see some magic happen!</h2>
+      <button onClick={onClickFetchData}> データ取得 </button>
+      {todos.map((todo) => (
+        <p>{todo.title}</p>
+      ))}
     </div>
   );
 }
